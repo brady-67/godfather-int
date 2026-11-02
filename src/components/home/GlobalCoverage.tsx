@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { GlobeVisual } from '@/components/home/GlobeVisual';
+import { lazy, Suspense } from 'react';
 import { Reveal } from '@/components/ui/Reveal';
 import { GLOBAL_REGIONS } from '@/lib/services-data';
+
+const GlobeVisual = lazy(() => import('@/components/home/GlobeVisual').then((m) => ({ default: m.GlobeVisual })));
 
 export function GlobalCoverage() {
   return (
@@ -19,7 +20,9 @@ export function GlobalCoverage() {
         </Reveal>
 
         <Reveal delay={100} className="mt-16 flex justify-center">
-          <GlobeVisual />
+          <Suspense fallback={<div className="aspect-square w-full max-w-md sm:max-w-lg" />}>
+            <GlobeVisual />
+          </Suspense>
         </Reveal>
 
         <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
