@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
+import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 
 export function SiteLayout() {
   const location = useLocation();
@@ -19,6 +20,7 @@ export function SiteLayout() {
       </main>
       <SiteFooter />
       <CartDrawer />
+      <WhatsAppButton />
     </div>
   );
 }
