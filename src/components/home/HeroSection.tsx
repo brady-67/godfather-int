@@ -5,7 +5,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { COMPANY } from '@/lib/company';
 import { GLOBAL_REGIONS } from '@/lib/services-data';
 
-const HERO_PHOTO = 'https://images.pexels.com/photos/3848789/pexels-photo-3848789.jpeg?auto=compress&cs=tinysrgb&h=650&w=940';
+const HERO_PHOTO = '/images/hero.jpg';
 
 const STATS = [
   { icon: Globe2, value: `${GLOBAL_REGIONS.length}`, label: 'world regions served' },
@@ -78,7 +78,7 @@ export function HeroSection() {
             <div className="gold-ring animate-spin-slow absolute -inset-4 rounded-[3rem] opacity-60 blur-[2px]" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] bg-ink-900 shadow-gold sm:aspect-[5/4]">
               <img src={HERO_PHOTO} alt="Aerial view of a container port at sunset" className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/70 via-ink-900/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/45 via-transparent to-transparent" />
             </div>
 
             <div className="absolute -bottom-8 -left-4 flex h-32 w-32 items-center justify-center rounded-full bg-white p-4 shadow-gold animate-float sm:-left-8">
