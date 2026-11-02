@@ -28,7 +28,10 @@ export function HeroSection() {
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold-500" />
               Trade &middot; Sourcing &middot; Logistics
             </span>
-            <h1 className="mt-7 text-5xl font-semibold leading-[1.02] text-ink-900 sm:text-6xl xl:text-7xl">
+            <p className="mt-6 font-display text-2xl font-semibold uppercase tracking-[0.14em] text-gold-700 sm:text-3xl">
+              {COMPANY.name}
+            </p>
+            <h1 className="mt-4 text-5xl font-semibold leading-[1.02] text-ink-900 sm:text-6xl xl:text-7xl">
               Trade that <span className="text-gold-shimmer">reaches every continent</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-600">
