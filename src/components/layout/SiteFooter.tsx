@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Globe, Phone } from 'lucide-react';
+import { Globe, MapPin, Phone } from 'lucide-react';
 import { COMPANY } from '@/lib/company';
 
 export function SiteFooter() {
@@ -42,9 +42,26 @@ export function SiteFooter() {
                 {COMPANY.phoneDisplay}
               </a>
             </li>
-            <li className="flex items-center gap-3">
-              <Globe className="h-4 w-4 shrink-0 text-gold-700" />
-              Serving clients worldwide
+            <li>
+              <a
+                href={COMPANY.hub.mapsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-3 transition hover:text-gold-700"
+              >
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-700" />
+                <span>
+                  <span className="block font-semibold text-ink-900">{COMPANY.hub.name}</span>
+                  {COMPANY.hub.building}, {COMPANY.hub.area}, {COMPANY.hub.city}
+                </span>
+              </a>
+            </li>
+            <li className="flex items-start gap-3">
+              <Globe className="mt-0.5 h-4 w-4 shrink-0 text-gold-700" />
+              <span>
+                <span className="block font-semibold text-ink-900">Headquarters</span>
+                {COMPANY.headquarters}
+              </span>
             </li>
           </ul>
         </div>

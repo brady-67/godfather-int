@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Globe2, Package, Ship } from 'lucide-react';
+import { ArrowRight, Globe2, MapPin, Package, Ship } from 'lucide-react';
 import { LiquidWave } from '@/components/ui/LiquidWave';
 import { Reveal } from '@/components/ui/Reveal';
 import { COMPANY } from '@/lib/company';
@@ -55,12 +55,21 @@ export function HeroSection() {
                 <span className="relative z-10">Explore services</span>
               </Link>
             </div>
-            <a
-              href={COMPANY.phoneHref}
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-700 transition hover:text-gold-700"
-            >
-              Call {COMPANY.phoneDisplay}
-            </a>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <a
+                href={COMPANY.phoneHref}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-ink-700 transition hover:text-gold-700"
+              >
+                Call {COMPANY.phoneDisplay}
+              </a>
+              <a
+                href="#nairobi-hub"
+                className="inline-flex items-center gap-2 rounded-full border border-gold-300 bg-gold-50 px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-gold-500 hover:bg-gold-100"
+              >
+                <MapPin className="h-4 w-4 text-gold-700" />
+                Visit our Nairobi Hub &middot; {COMPANY.hub.building}, {COMPANY.hub.area}
+              </a>
+            </div>
           </Reveal>
         </div>
 

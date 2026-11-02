@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Phone } from 'lucide-react';
+import { ArrowRight, MapPin, Phone } from 'lucide-react';
 import { LiquidWave } from '@/components/ui/LiquidWave';
 import { Reveal } from '@/components/ui/Reveal';
 import { COMPANY } from '@/lib/company';
@@ -42,6 +42,16 @@ export function ContactCta() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
+
+              <a
+                href={COMPANY.hub.mapsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-gold-200 transition hover:text-gold-300"
+              >
+                <MapPin className="h-4 w-4" />
+                Visit us: {COMPANY.hub.name}, {COMPANY.hub.short}
+              </a>
             </div>
           </div>
         </Reveal>
