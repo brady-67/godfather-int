@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
+import { RequireAdmin } from '@/components/layout/RequireAdmin';
 import { RequireAuth } from '@/components/layout/RequireAuth';
 import { SiteLayout } from '@/components/layout/SiteLayout';
 import { AboutPage } from '@/pages/AboutPage';
+import { AdminPage } from '@/pages/AdminPage';
 import { AccountPage } from '@/pages/AccountPage';
 import { CheckoutPage } from '@/pages/CheckoutPage';
 import { HomePage } from '@/pages/HomePage';
@@ -29,6 +31,14 @@ function App() {
             <RequireAuth>
               <AccountPage />
             </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin>
+              <AdminPage />
+            </RequireAdmin>
           }
         />
         <Route

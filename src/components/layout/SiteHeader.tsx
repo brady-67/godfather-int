@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, Phone, ShoppingBag, User, X } from 'lucide-react';
+import { Menu, Phone, ShieldCheck, ShoppingBag, User, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 import { COMPANY } from '@/lib/company';
 
 const NAV_LINKS = [
@@ -18,6 +19,7 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const { itemCount, openCart } = useCart();
 
   useEffect(() => {
@@ -90,6 +92,16 @@ export function SiteHeader() {
             <Phone className="h-4 w-4 text-gold-700" />
             {COMPANY.phoneDisplay}
           </a>
+
+          {isAdmin && (
+            <Link
+              to="/admin"
+              aria-label="Admin dashboard"
+              className="rounded-full p-2.5 text-gold-700 transition hover:bg-gold-50 hover:text-ink-900"
+            >
+              <ShieldCheck className="h-5 w-5" />
+            </Link>
+          )}
 
           <Link
             to={user ? '/account' : '/login'}
