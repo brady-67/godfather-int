@@ -1,6 +1,6 @@
-export function formatPrice(cents: number, currency = 'USD'): string {
+export function formatPrice(cents: number, currency = 'USD', showCode = true): string {
   const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(cents / 100);
-  return currency === 'USD' ? `${formatted} USD` : formatted;
+  return showCode && currency === 'USD' ? `${formatted} USD` : formatted;
 }
 
 export function formatDate(iso: string): string {
