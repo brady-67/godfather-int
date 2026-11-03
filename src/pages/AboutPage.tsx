@@ -9,7 +9,7 @@ const PILLARS = [
   {
     icon: Globe2,
     title: 'Global reach',
-    text: 'Clients and partners across seven regions, connected through a network built for international trade.',
+    text: 'Clients and partners across six regions, connected through a network built for international trade.',
   },
   {
     icon: Handshake,

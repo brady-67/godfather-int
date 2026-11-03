@@ -19,7 +19,7 @@ export function NairobiHub() {
             Our <span className="text-gold-shimmer">Nairobi Hub</span> in Westlands
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-600">
-            Meet our team face to face at {hub.building}, {hub.area}. Come in to discuss sourcing, shipping, travel and
+            Meet our team face-to-face at {hub.address}. Come in to discuss sourcing, shipping, travel and
             immigration support.
           </p>
         </Reveal>
@@ -93,7 +93,7 @@ export function NairobiHub() {
 
             <div className="relative min-h-[22rem] lg:col-span-7 lg:min-h-[32rem]">
               <iframe
-                title={`Map of ${hub.short}`}
+                title={`Map of ${hub.address}`}
                 src={hub.mapEmbedSrc}
                 className="absolute inset-0 h-full w-full border-0"
                 loading="lazy"

@@ -1,5 +1,6 @@
 export function formatPrice(cents: number, currency = 'USD'): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(cents / 100);
+  const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(cents / 100);
+  return currency === 'USD' ? `${formatted} USD` : formatted;
 }
 
 export function formatDate(iso: string): string {

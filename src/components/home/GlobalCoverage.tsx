@@ -15,7 +15,7 @@ export function GlobalCoverage() {
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-ink-600">
             Wherever your business grows, our network follows. From sourcing hubs to final delivery, we support clients
-            across seven regions of the world.
+            across six regions of the world.
           </p>
         </Reveal>
 
@@ -25,7 +25,7 @@ export function GlobalCoverage() {
           </Suspense>
         </Reveal>
 
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {GLOBAL_REGIONS.map((region, index) => {
             const Icon = region.icon;
             return (

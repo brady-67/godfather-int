@@ -31,7 +31,6 @@ const MARKERS: Marker[] = [
   { name: 'North America', lat: 40, lon: -100 },
   { name: 'South America', lat: -15, lon: -60 },
   { name: 'Australia', lat: -25, lon: 135 },
-  { name: 'Antarctica & Arctic', lat: 78, lon: 0 },
 ];
 
 const TILT_DEG = 12;

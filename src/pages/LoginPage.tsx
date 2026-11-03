@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { TextField } from '@/components/ui/TextField';
 import { useAuth } from '@/contexts/AuthContext';
+import { COMPANY } from '@/lib/company';
 import { safeNextPath } from '@/lib/navigation';
 
 export function LoginPage() {
@@ -77,7 +78,7 @@ export function LoginPage() {
           </form>
 
           <p className="mt-8 text-center text-sm text-ink-500">
-            New to Godfather?{' '}
+            New to {COMPANY.name}?{' '}
             <Link
               to={`/register${next !== '/account' ? `?next=${encodeURIComponent(next)}` : ''}`}
               className="font-semibold text-gold-700 hover:text-gold-600"

@@ -53,7 +53,7 @@ export function ContactCta() {
                 className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-gold-200 transition hover:text-gold-300"
               >
                 <MapPin className="h-4 w-4" />
-                Visit us: {COMPANY.hub.name}, {COMPANY.hub.short}
+                Visit us: {COMPANY.hub.address}
               </a>
             </div>
           </div>

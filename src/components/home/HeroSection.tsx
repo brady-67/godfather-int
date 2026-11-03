@@ -8,9 +8,9 @@ import { GLOBAL_REGIONS } from '@/lib/services-data';
 const HERO_PHOTO = '/images/hero.jpg';
 
 const STATS = [
-  { icon: Globe2, value: `${GLOBAL_REGIONS.length}`, label: 'world regions served' },
-  { icon: Ship, value: '4', label: 'service groups' },
-  { icon: Package, value: '6', label: 'product categories' },
+  { icon: Globe2, value: `${GLOBAL_REGIONS.length}`, label: 'Regions Served' },
+  { icon: Ship, value: '4', label: 'Service Groups' },
+  { icon: Package, value: '6', label: 'Product Categories' },
 ];
 
 export function HeroSection() {
@@ -26,14 +26,14 @@ export function HeroSection() {
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-gold-300 bg-gold-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-gold-800">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold-500" />
-              Trade &middot; Sourcing &middot; Logistics
+              Trade, Sourcing &amp; Logistics
             </span>
             <h1 className="mt-7 text-5xl font-semibold leading-[1.02] text-ink-900 sm:text-6xl xl:text-7xl">
-              Trade that <span className="text-gold-shimmer">reaches every continent</span>
+              Trade That <span className="text-gold-shimmer">Reaches Every Continent</span>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-600">
-              Trusted suppliers, end-to-end logistics, travel and immigration support, and quality goods, managed by one
-              partner wherever your business operates.
+              We connect you with trusted suppliers and deliver end-to-end logistics, travel and immigration support, and
+              quality goods, all managed by one partner wherever your business operates.
             </p>
           </Reveal>
 
@@ -61,7 +61,7 @@ export function HeroSection() {
                 className="inline-flex items-center gap-2 rounded-full border border-gold-300 bg-gold-50 px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-gold-500 hover:bg-gold-100"
               >
                 <MapPin className="h-4 w-4 text-gold-700" />
-                Visit our Nairobi Hub &middot; {COMPANY.hub.building}, {COMPANY.hub.area}
+                Visit us: {COMPANY.hub.address}
               </a>
             </div>
           </Reveal>

@@ -49,7 +49,7 @@ export function CheckoutPage() {
       .join(', ');
 
     const message = [
-      `Hello ${COMPANY.shortName}, I would like to place an order.`,
+      `Hello ${COMPANY.name}, I would like to place an order.`,
       '',
       '*Order*',
       ...lines,

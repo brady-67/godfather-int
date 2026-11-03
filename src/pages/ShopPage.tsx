@@ -66,8 +66,8 @@ export function ShopPage() {
               Quality goods, <span className="text-gold-shimmer">ready to ship worldwide</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-600">
-              A curated selection of physical goods sourced through our global supplier network. Browse by category, check
-              live stock, and order with a secure checkout.
+              Browse a curated selection of physical goods sourced through our global supplier network. Filter by category,
+              check live stock, and send your order to our team on WhatsApp.
             </p>
           </Reveal>
 

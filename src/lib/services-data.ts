@@ -18,7 +18,6 @@ import {
   Search,
   Ship,
   ShoppingBag,
-  Snowflake,
   Stamp,
   Store,
   Sun,
@@ -38,6 +37,7 @@ export interface ServiceCategory {
   eyebrow: string;
   title: string;
   intro: string;
+  summary: string;
   services: ServiceItem[];
 }
 
@@ -46,6 +46,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     id: 'travel-immigration',
     eyebrow: 'Travel & Immigration',
     title: 'Seamless Travel & Immigration Support',
+    summary: 'Visas, work permits, appointments, hotels, airport transfers and air tickets.',
     intro:
       'Navigate visa requirements, secure accommodations, and arrange seamless travel logistics with our comprehensive immigration and travel support services.',
     services: [
@@ -90,6 +91,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     id: 'supply-chain',
     eyebrow: 'Supply Chain & Logistics',
     title: 'Streamlined International Operations',
+    summary: 'Sourcing, cargo, shipping, import and export, inspection and procurement.',
     intro:
       'Optimize your supply chain from sourcing to delivery with our end-to-end logistics solutions, quality assurance, and international shipping expertise.',
     services: [
@@ -134,6 +136,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     id: 'business-financial',
     eyebrow: 'Business & Financial Services',
     title: 'Strategic Business Solutions',
+    summary: 'Consulting, contracts and international money transfers.',
     intro:
       'Establish secure business foundations with expert consulting, legal contract support, and transparent international payment solutions.',
     services: [
@@ -158,6 +161,7 @@ export const SERVICE_CATEGORIES: ServiceCategory[] = [
     id: 'experience-hospitality',
     eyebrow: 'Experience & Hospitality',
     title: 'Memorable Global Experiences',
+    summary: 'Curated tours and site visits that build business relationships.',
     intro:
       'Create memorable business experiences through curated site visits, cultural immersion, and strategic networking opportunities.',
     services: [
@@ -183,5 +187,4 @@ export const GLOBAL_REGIONS: GlobalRegion[] = [
   { name: 'North America', note: 'Retail, distribution and import channels', icon: Building2 },
   { name: 'South America', note: 'Growing markets and regional logistics', icon: Trees },
   { name: 'Australia', note: 'Pacific trade routes and partnerships', icon: Waves },
-  { name: 'Antarctica & Arctic', note: 'Serving clients across the polar regions', icon: Snowflake },
 ];

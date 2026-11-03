@@ -91,7 +91,7 @@ export function SiteFooter() {
       <div className="border-t border-gold-200">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-6 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>
-            &copy; {new Date().getFullYear()} {COMPANY.name}. All rights reserved.
+            &copy; {COMPANY.foundedYear}&ndash;{new Date().getFullYear()} {COMPANY.name}. All rights reserved.
           </p>
           <p className="font-display text-sm font-semibold text-gold-700">Trade the world with confidence.</p>
         </div>

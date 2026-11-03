@@ -42,8 +42,7 @@ export function ServicesPreview() {
                   <div className="space-y-3">
                     <h3 className="text-2xl font-semibold text-white">{category.eyebrow}</h3>
                     <p className="text-sm leading-relaxed text-ink-200">
-                      {category.services.length} service{category.services.length > 1 ? 's' : ''} tailored to your
-                      business.
+                      {category.summary}
                     </p>
                   </div>
                   <span className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-gold-300">

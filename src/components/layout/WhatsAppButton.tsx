@@ -1,6 +1,6 @@
 import { COMPANY, whatsappLink } from '@/lib/company';
 
-const MESSAGE = `Hello ${COMPANY.shortName}, I'd like to make an enquiry.`;
+const MESSAGE = `Hello ${COMPANY.name}, I'd like to make an enquiry.`;
 const HREF = whatsappLink(MESSAGE);
 
 export function WhatsAppButton() {
