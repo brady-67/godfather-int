@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Phone } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { LiquidWave } from '@/components/ui/LiquidWave';
 import { Reveal } from '@/components/ui/Reveal';
 import { COMPANY } from '@/lib/company';
@@ -26,12 +27,14 @@ export function ContactCta() {
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <a
-                  href={COMPANY.phoneHref}
+                  href={COMPANY.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="liquid-fill inline-flex items-center gap-2 rounded-full bg-gold-400 px-7 py-4 text-sm font-semibold text-ink-900"
                 >
                   <span className="relative z-10 inline-flex items-center gap-2">
-                    <Phone className="h-4 w-4" />
-                    Call {COMPANY.phoneDisplay}
+                    <WhatsAppIcon className="h-4 w-4" />
+                    Chat on WhatsApp
                   </span>
                 </a>
                 <Link

@@ -57,12 +57,6 @@ export function HeroSection() {
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
-                href={COMPANY.phoneHref}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-ink-700 transition hover:text-gold-700"
-              >
-                Call {COMPANY.phoneDisplay}
-              </a>
-              <a
                 href="#nairobi-hub"
                 className="inline-flex items-center gap-2 rounded-full border border-gold-300 bg-gold-50 px-4 py-2 text-sm font-semibold text-ink-900 transition hover:border-gold-500 hover:bg-gold-100"
               >

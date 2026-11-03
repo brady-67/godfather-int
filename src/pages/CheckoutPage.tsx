@@ -1,13 +1,14 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, Check, Copy, ShoppingBag } from 'lucide-react';
+import { AlertTriangle, CreditCard, Smartphone, ShoppingBag, Wallet, MessageCircle } from 'lucide-react';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Reveal } from '@/components/ui/Reveal';
 import { TextField } from '@/components/ui/TextField';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { useCart } from '@/contexts/CartContext';
+import { COMPANY, whatsappLink } from '@/lib/company';
 import { formatPrice } from '@/lib/format';
-import { supabase } from '@/lib/supabase';
-import { PAYMENT_METHODS, type PaymentMethod, type PlacedOrder, type ShippingDetails } from '@/lib/types';
+import { PAYMENT_METHODS, type ShippingDetails } from '@/lib/types';
 
 const EMPTY_SHIPPING: ShippingDetails = {
   name: '',
@@ -20,92 +21,55 @@ const EMPTY_SHIPPING: ShippingDetails = {
   notes: '',
 };
 
-function isPlacedOrder(value: unknown): value is PlacedOrder {
-  if (typeof value !== 'object' || value === null) return false;
-  const order = value as Partial<PlacedOrder>;
-  return typeof order.id === 'string' && typeof order.tracking_code === 'string' && typeof order.total_cents === 'number';
-}
+const PAYMENT_ICONS = {
+  wechat_pay: MessageCircle,
+  alipay: Smartphone,
+  paypal: Wallet,
+  international_card: CreditCard,
+} as const;
 
 export function CheckoutPage() {
-  const { items, subtotalCents, itemCount, setQuantity, removeItem, clearCart, catalogLoading, catalogError } = useCart();
+  const { items, subtotalCents, itemCount, setQuantity, removeItem, catalogLoading, catalogError } = useCart();
   const [shipping, setShipping] = useState<ShippingDetails>(EMPTY_SHIPPING);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('international_card');
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [placed, setPlaced] = useState<PlacedOrder | null>(null);
-  const [copied, setCopied] = useState(false);
 
   const updateField = (field: keyof ShippingDetails) => (value: string) =>
     setShipping((prev) => ({ ...prev, [field]: value }));
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (items.length === 0) return;
-    setSubmitting(true);
-    setError(null);
 
-    const { data, error: rpcError } = await supabase.rpc('place_order', {
-      p_items: items.map((item) => ({ product_id: item.product.id, quantity: item.quantity })),
-      p_shipping: shipping,
-      p_payment_method: paymentMethod,
-    });
-
-    setSubmitting(false);
-    if (rpcError) {
-      setError(rpcError.message.includes('stock')
-        ? 'Some items no longer have enough stock. Please review your cart.'
-        : 'We could not place your order. Please check your details and try again.');
-      return;
-    }
-    if (!isPlacedOrder(data)) {
-      setError('We received an unexpected response. Your order may not have been placed; please check your account.');
-      return;
-    }
-    setPlaced(data);
-    clearCart();
-  };
-
-  const handleCopy = async (code: string) => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  if (placed) {
-    return (
-      <section className="relative flex min-h-[calc(100vh-5rem)] items-center overflow-hidden bg-gradient-to-b from-gold-50 via-white to-white px-5 py-24 sm:px-8">
-        <div className="liquid-blob -left-24 top-10 h-96 w-96 bg-gold-200/60" />
-        <Reveal className="relative mx-auto max-w-lg text-center">
-          <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gold-400 text-ink-900 shadow-gold animate-scale-in">
-            <Check className="h-10 w-10" />
-          </span>
-          <h1 className="mt-8 text-4xl font-semibold text-ink-900">Thank you, your order is placed</h1>
-          <p className="mt-4 text-ink-600">Keep this tracking code to follow your shipment.</p>
-          <div className="mt-8 rounded-3xl border border-gold-200 bg-white p-6 shadow-gold">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-700">Tracking code</p>
-            <p className="mt-2 font-display text-3xl font-semibold text-ink-900">{placed.tracking_code}</p>
-            <p className="mt-2 text-sm text-ink-500">Total {formatPrice(placed.total_cents)}</p>
-          </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <button
-              type="button"
-              onClick={() => void handleCopy(placed.tracking_code)}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-gold-400 px-6 py-3 text-sm font-semibold text-ink-900 transition hover:bg-gold-50"
-            >
-              <Copy className="h-4 w-4" />
-              {copied ? 'Copied' : 'Copy code'}
-            </button>
-            <Link
-              to={`/track/${placed.tracking_code}`}
-              className="inline-flex items-center justify-center rounded-full bg-ink-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gold-500 hover:text-ink-900"
-            >
-              Track this order
-            </Link>
-          </div>
-        </Reveal>
-      </section>
+    const lines = items.map(
+      (item, index) =>
+        `${index + 1}. ${item.product.name} x ${item.quantity} - ${formatPrice(item.lineTotalCents)}`,
     );
-  }
+    const address = [shipping.address_line, shipping.city, shipping.postal_code, shipping.country]
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .join(', ');
+
+    const message = [
+      `Hello ${COMPANY.shortName}, I would like to place an order.`,
+      '',
+      '*Order*',
+      ...lines,
+      '',
+      `*Total:* ${formatPrice(subtotalCents)}`,
+      '',
+      '*Delivery details*',
+      `Name: ${shipping.name.trim()}`,
+      `Email: ${shipping.email.trim()}`,
+      `Phone: ${shipping.phone.trim()}`,
+      `Address: ${address}`,
+      ...(shipping.notes.trim() ? [`Notes: ${shipping.notes.trim()}`] : []),
+      '',
+      'Please confirm availability and how to pay. Thank you!',
+    ].join('\n');
+
+    const url = whatsappLink(message);
+    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!opened) window.location.href = url;
+  };
 
   if (!catalogLoading && items.length === 0) {
     return (
@@ -127,7 +91,7 @@ export function CheckoutPage() {
     <div className="bg-gradient-to-b from-gold-50/70 via-white to-white">
       <section className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 lg:pt-36">
         <Reveal>
-          <p className="eyebrow">Secure checkout</p>
+          <p className="eyebrow">Checkout</p>
           <h1 className="mt-4 text-4xl font-semibold text-ink-900 sm:text-5xl">Complete your order</h1>
         </Reveal>
 
@@ -145,7 +109,7 @@ export function CheckoutPage() {
               <div className="grid gap-5 sm:grid-cols-2">
                 <TextField id="ship-name" label="Full name" value={shipping.name} onChange={updateField('name')} autoComplete="name" required />
                 <TextField id="ship-email" label="Email" type="email" value={shipping.email} onChange={updateField('email')} autoComplete="email" required />
-                <TextField id="ship-phone" label="Phone" type="tel" value={shipping.phone} onChange={updateField('phone')} autoComplete="tel" required />
+                <TextField id="ship-phone" label="Phone / WhatsApp number" type="tel" value={shipping.phone} onChange={updateField('phone')} autoComplete="tel" required />
                 <TextField id="ship-country" label="Country" value={shipping.country} onChange={updateField('country')} autoComplete="country-name" required />
                 <TextField id="ship-city" label="City" value={shipping.city} onChange={updateField('city')} autoComplete="address-level2" required />
                 <TextField id="ship-postal" label="Postal code" value={shipping.postal_code} onChange={updateField('postal_code')} autoComplete="postal-code" required />
@@ -156,42 +120,52 @@ export function CheckoutPage() {
 
             <fieldset className="space-y-5 rounded-[2rem] border border-gold-100 bg-white p-7 shadow-sm sm:p-8">
               <legend className="font-display text-2xl font-semibold text-ink-900">Payment method</legend>
+              <p className="text-sm text-ink-500">
+                Online payments are launching soon. For now, send your order on WhatsApp and we will confirm everything and
+                share payment details with you.
+              </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 {PAYMENT_METHODS.map((method) => {
-                  const active = paymentMethod === method.id;
+                  const Icon = PAYMENT_ICONS[method.id];
                   return (
-                    <button
+                    <div
                       key={method.id}
-                      type="button"
-                      onClick={() => setPaymentMethod(method.id)}
-                      aria-pressed={active}
-                      className={`rounded-2xl border-2 p-5 text-left transition duration-300 ${
-                        active ? 'border-gold-500 bg-gold-50 shadow-gold' : 'border-ink-100 bg-white hover:border-gold-300'
-                      }`}
+                      aria-disabled="true"
+                      className="coming-soon-card cursor-not-allowed rounded-2xl border-2 border-dashed border-gold-300 bg-gradient-to-br from-gold-50 via-white to-gold-50 p-5"
                     >
-                      <p className="font-semibold text-ink-900">{method.label}</p>
-                      <p className="mt-1 text-sm text-ink-500">{method.hint}</p>
-                    </button>
+                      <div className="flex items-start justify-between gap-3">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-gold-700 shadow-sm ring-1 ring-gold-200">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-ink-900 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-300">
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-300" />
+                            <span className="relative h-1.5 w-1.5 rounded-full bg-gold-400" />
+                          </span>
+                          Coming soon
+                        </span>
+                      </div>
+                      <p className="mt-4 font-semibold text-ink-700">{method.label}</p>
+                      <p className="mt-1 text-sm text-ink-400">{method.hint}</p>
+                    </div>
                   );
                 })}
               </div>
             </fieldset>
 
-            {error && (
-              <p role="alert" className="rounded-2xl border border-crimson-50 bg-crimson-50 px-5 py-4 text-sm text-crimson-700">
-                {error}
+            <div className="space-y-3">
+              <button
+                type="submit"
+                disabled={items.length === 0}
+                className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:brightness-95 disabled:opacity-60"
+              >
+                <WhatsAppIcon className="h-6 w-6" />
+                Order on WhatsApp - {formatPrice(subtotalCents)}
+              </button>
+              <p className="text-center text-xs text-ink-400">
+                This opens WhatsApp with your order and delivery details ready to send.
               </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={submitting || items.length === 0}
-              className="liquid-fill w-full rounded-full bg-ink-900 px-8 py-4 text-base font-semibold text-white disabled:opacity-60"
-            >
-              <span className="relative z-10">
-                {submitting ? 'Placing order...' : `Place order - ${formatPrice(subtotalCents)}`}
-              </span>
-            </button>
+            </div>
           </form>
 
           <aside className="h-fit space-y-6 rounded-[2rem] border border-gold-200 bg-white p-7 shadow-gold lg:sticky lg:top-32">

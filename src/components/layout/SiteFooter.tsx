@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Globe, MapPin, Phone } from 'lucide-react';
+import { Globe, MapPin } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { COMPANY } from '@/lib/company';
 
 export function SiteFooter() {
@@ -37,9 +38,14 @@ export function SiteFooter() {
           <h3 className="mb-5 text-lg font-semibold">Contact</h3>
           <ul className="space-y-4 text-sm text-ink-600">
             <li>
-              <a href={COMPANY.phoneHref} className="flex items-center gap-3 font-semibold text-ink-900 hover:text-gold-700">
-                <Phone className="h-4 w-4 text-gold-700" />
-                {COMPANY.phoneDisplay}
+              <a
+                href={COMPANY.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 font-semibold text-ink-900 hover:text-gold-700"
+              >
+                <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+                Chat with us on WhatsApp
               </a>
             </li>
             <li>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, Phone, ShieldCheck, ShoppingBag, User, X } from 'lucide-react';
+import { Menu, ShieldCheck, ShoppingBag, User, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
@@ -85,14 +85,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <a
-            href={COMPANY.phoneHref}
-            className="hidden items-center gap-2 rounded-full border border-gold-200 bg-gold-50 px-4 py-2 text-sm font-semibold text-ink-800 transition hover:border-gold-400 hover:bg-gold-100 xl:flex"
-          >
-            <Phone className="h-4 w-4 text-gold-700" />
-            {COMPANY.phoneDisplay}
-          </a>
-
           {isAdmin && (
             <Link
               to="/admin"
@@ -157,13 +149,6 @@ export function SiteHeader() {
               {link.label}
             </NavLink>
           ))}
-          <a
-            href={COMPANY.phoneHref}
-            className="mt-2 flex items-center gap-2 rounded-xl bg-ink-900 px-4 py-3 text-base font-semibold text-white"
-          >
-            <Phone className="h-4 w-4 text-gold-300" />
-            {COMPANY.phoneDisplay}
-          </a>
         </nav>
       </div>
     </header>

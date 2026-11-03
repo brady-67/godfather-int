@@ -1,4 +1,5 @@
-import { Building2, Globe2, MapPin, Navigation, Phone } from 'lucide-react';
+import { Building2, Globe2, MapPin, Navigation } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { Reveal } from '@/components/ui/Reveal';
 import { COMPANY } from '@/lib/company';
 
@@ -54,10 +55,15 @@ export function NairobiHub() {
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Phone className="mt-0.5 h-5 w-5 shrink-0 text-gold-300" />
-                    <a href={COMPANY.phoneHref} className="transition hover:text-gold-300">
-                      <span className="block font-semibold text-white">Call us</span>
-                      {COMPANY.phoneDisplay}
+                    <WhatsAppIcon className="mt-0.5 h-5 w-5 shrink-0 text-gold-300" />
+                    <a
+                      href={COMPANY.whatsappHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition hover:text-gold-300"
+                    >
+                      <span className="block font-semibold text-white">WhatsApp</span>
+                      Message us anytime
                     </a>
                   </li>
                 </ul>

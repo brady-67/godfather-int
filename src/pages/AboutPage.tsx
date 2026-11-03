@@ -1,4 +1,5 @@
-import { Globe2, ShieldCheck, Handshake, Phone } from 'lucide-react';
+import { Globe2, ShieldCheck, Handshake } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { ContactCta } from '@/components/home/ContactCta';
 import { LiquidWave } from '@/components/ui/LiquidWave';
 import { Reveal } from '@/components/ui/Reveal';
@@ -64,13 +65,15 @@ export function AboutPage() {
 
         <Reveal className="mt-20 flex flex-col items-center gap-6 rounded-[2.5rem] border border-gold-200 bg-gold-50/60 p-10 text-center sm:p-14">
           <h2 className="text-3xl font-semibold text-ink-900 sm:text-4xl">Talk to our team</h2>
-          <p className="max-w-xl text-ink-600">Call us directly to discuss your project, shipment or travel needs.</p>
+          <p className="max-w-xl text-ink-600">Message us on WhatsApp to discuss your project, shipment or travel needs.</p>
           <a
-            href={COMPANY.phoneHref}
-            className="inline-flex items-center gap-3 rounded-full bg-ink-900 px-7 py-4 text-base font-semibold text-white transition hover:bg-gold-500 hover:text-ink-900"
+            href={COMPANY.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-7 py-4 text-base font-semibold text-white transition hover:brightness-95"
           >
-            <Phone className="h-5 w-5" />
-            {COMPANY.phoneDisplay}
+            <WhatsAppIcon className="h-5 w-5" />
+            Chat on WhatsApp
           </a>
         </Reveal>
       </section>
