@@ -57,7 +57,7 @@ export function ProductCard({ product, onOpen }: ProductCardProps) {
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-500">{product.description}</p>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-6">
-          <span className="font-display text-3xl font-semibold text-ink-900">{formatPrice(product.price_cents)}</span>
+          <span className="font-display text-3xl font-semibold text-ink-900">{formatPrice(product.price_cents, 'USD', false)}</span>
           <button
             type="button"
             onClick={handleAdd}
