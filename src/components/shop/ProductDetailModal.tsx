@@ -44,7 +44,7 @@ function ProductDetailContent({ product, onClose }: { product: Product; onClose:
         <div className="flex flex-col gap-5 p-6 sm:p-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-700">{product.category}</p>
-            <p className="mt-3 font-display text-4xl font-semibold text-ink-900">{formatPrice(product.price_cents)}</p>
+            <p className="mt-3 font-display text-4xl font-semibold text-ink-900">{formatPrice(product.price_cents, 'USD', false)}</p>
           </div>
 
           <p className="text-base leading-relaxed text-ink-600">{product.description}</p>
