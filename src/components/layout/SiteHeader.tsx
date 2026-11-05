@@ -44,8 +44,10 @@ export function SiteHeader() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-6 sm:px-8">
         <Link to="/" className="group flex min-w-0 shrink items-center gap-2 sm:shrink-0 sm:gap-3" aria-label={COMPANY.name}>
           <img
-            src="/images/image.png"
+            src="/images/logo.webp"
             alt=""
+            width={377}
+            height={256}
             className="h-10 w-auto shrink-0 transition duration-500 group-hover:scale-105 sm:h-12"
           />
           <span className="flex min-w-0 flex-col leading-none">

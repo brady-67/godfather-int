@@ -4,10 +4,12 @@ import { ArrowRight } from 'lucide-react';
 import { TextField } from '@/components/ui/TextField';
 import { useAuth } from '@/contexts/AuthContext';
 import { safeNextPath } from '@/lib/navigation';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const MIN_PASSWORD_LENGTH = 8;
 
 export function RegisterPage() {
+  usePageMeta({ title: 'Create an Account', description: 'Create an account to place orders and track your shipments.', noindex: true });
   const { signUp, signIn } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

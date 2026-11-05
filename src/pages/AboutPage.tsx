@@ -4,6 +4,7 @@ import { ContactCta } from '@/components/home/ContactCta';
 import { LiquidWave } from '@/components/ui/LiquidWave';
 import { Reveal } from '@/components/ui/Reveal';
 import { COMPANY } from '@/lib/company';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const PILLARS = [
   {
@@ -24,6 +25,7 @@ const PILLARS = [
 ];
 
 export function AboutPage() {
+  usePageMeta({ title: 'About Us', description: 'Godfather International Trading LLC connects businesses and individuals with goods, services and networks across six regions, with a hub in Nairobi and headquarters in Guangzhou.' });
   return (
     <div>
       <section className="relative overflow-hidden bg-gradient-to-b from-gold-50 via-white to-white">

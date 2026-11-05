@@ -2,8 +2,10 @@ import { ContactCta } from '@/components/home/ContactCta';
 import { LiquidWave } from '@/components/ui/LiquidWave';
 import { Reveal } from '@/components/ui/Reveal';
 import { SERVICE_CATEGORIES } from '@/lib/services-data';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 export function ServicesPage() {
+  usePageMeta({ title: 'Services', description: 'Visa and immigration support, sourcing, cargo and shipping, import and export, inspection, business consulting, contracts, money transfers and business travel.' });
   return (
     <div>
       <section className="relative overflow-hidden bg-gradient-to-b from-gold-50 via-white to-white">

@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { formatDateTime, formatPrice } from '@/lib/format';
 import { getPaymentLabel, getStatusIndex, ORDER_STATUS_STEPS, type OrderRow } from '@/lib/types';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const ORDERS_QUERY = 'id, tracking_code, status, payment_method, payment_status, total_cents, currency, created_at, updated_at, order_items(id, product_name, unit_price_cents, quantity)';
 
@@ -19,6 +20,7 @@ function isOrderRowArray(value: unknown): value is OrderRow[] {
 }
 
 export function AccountPage() {
+  usePageMeta({ title: 'My Orders', description: 'Your orders and tracking details.', noindex: true });
   const { user, signOut } = useAuth();
   const [state, setState] = useState<OrdersState>({ kind: 'loading' });
   const [signingOut, setSigningOut] = useState(false);

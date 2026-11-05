@@ -6,6 +6,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { supabase } from '@/lib/supabase';
 import { formatDateTime, formatPrice } from '@/lib/format';
 import { getPaymentLabel, getStatusIndex, ORDER_STATUS_STEPS, type TrackedOrder } from '@/lib/types';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 type LookupState =
   | { kind: 'idle' }
@@ -21,6 +22,7 @@ function isTrackedOrder(value: unknown): value is TrackedOrder {
 }
 
 export function TrackOrderPage() {
+  usePageMeta({ title: 'Track Your Order', description: 'Enter your tracking code to see the latest status of your Godfather International Trading order.' });
   const { code: routeCode } = useParams();
   const [code, setCode] = useState(routeCode ?? '');
   const [lookup, setLookup] = useState<LookupState>({ kind: 'idle' });

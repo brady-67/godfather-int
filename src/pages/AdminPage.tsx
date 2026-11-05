@@ -7,6 +7,7 @@ import { deleteProduct, updateProduct } from '@/lib/admin-products';
 import { fetchProducts } from '@/lib/catalog';
 import { formatPrice } from '@/lib/format';
 import { PRODUCT_CATEGORIES, type Product } from '@/lib/types';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const LOW_STOCK = 5;
 
@@ -47,6 +48,7 @@ function StockInput({ product, onSaved, onError }: { product: Product; onSaved: 
 }
 
 export function AdminPage() {
+  usePageMeta({ title: 'Admin', description: 'Shop administration.', noindex: true });
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);

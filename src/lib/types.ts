@@ -28,7 +28,8 @@ export const PAYMENT_METHODS = [
   { id: 'international_card', label: 'International Card', hint: 'Visa, Mastercard, Amex' },
 ] as const;
 
-export type PaymentMethod = (typeof PAYMENT_METHODS)[number]['id'];
+// 'whatsapp' is how orders are placed today; the others are online methods that are coming soon.
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number]['id'] | 'whatsapp';
 
 export const ORDER_STATUS_STEPS = [
   { id: 'placed', label: 'Order placed', description: 'We have received your order.' },
@@ -42,6 +43,7 @@ export const ORDER_STATUS_STEPS = [
 export type OrderStatus = (typeof ORDER_STATUS_STEPS)[number]['id'];
 
 export function getPaymentLabel(method: string): string {
+  if (method === 'whatsapp') return 'Pay via WhatsApp';
   return PAYMENT_METHODS.find((m) => m.id === method)?.label ?? 'Unknown method';
 }
 

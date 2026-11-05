@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, CreditCard, Smartphone, ShoppingBag, Wallet, MessageCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, CreditCard, Loader2, MessageCircle, ShoppingBag, Smartphone, Wallet } from 'lucide-react';
 import { QuantityStepper } from '@/components/ui/QuantityStepper';
 import { Reveal } from '@/components/ui/Reveal';
 import { TextField } from '@/components/ui/TextField';
@@ -8,7 +8,9 @@ import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { useCart } from '@/contexts/CartContext';
 import { COMPANY, whatsappLink } from '@/lib/company';
 import { formatPrice } from '@/lib/format';
+import { supabase } from '@/lib/supabase';
 import { PAYMENT_METHODS, type ShippingDetails } from '@/lib/types';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const EMPTY_SHIPPING: ShippingDetails = {
   name: '',
@@ -28,48 +30,138 @@ const PAYMENT_ICONS = {
   international_card: CreditCard,
 } as const;
 
+interface PlacedOrder {
+  code: string;
+  totalCents: number;
+  whatsappUrl: string;
+}
+
+function isOrderResult(value: unknown): value is { tracking_code: string; total_cents: number } {
+  if (typeof value !== 'object' || value === null) return false;
+  const row = value as { tracking_code?: unknown; total_cents?: unknown };
+  return typeof row.tracking_code === 'string' && typeof row.total_cents === 'number';
+}
+
 export function CheckoutPage() {
-  const { items, subtotalCents, itemCount, setQuantity, removeItem, catalogLoading, catalogError } = useCart();
+  usePageMeta({ title: 'Checkout', description: 'Complete your order.', noindex: true });
+  const { items, subtotalCents, itemCount, setQuantity, removeItem, clearCart, reloadCatalog, catalogLoading, catalogError } =
+    useCart();
   const [shipping, setShipping] = useState<ShippingDetails>(EMPTY_SHIPPING);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [placed, setPlaced] = useState<PlacedOrder | null>(null);
 
   const updateField = (field: keyof ShippingDetails) => (value: string) =>
     setShipping((prev) => ({ ...prev, [field]: value }));
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (items.length === 0) return;
+    if (items.length === 0 || submitting) return;
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    const details = {
+      name: shipping.name.trim(),
+      email: shipping.email.trim(),
+      phone: shipping.phone.trim(),
+      address_line: shipping.address_line.trim(),
+      city: shipping.city.trim(),
+      postal_code: shipping.postal_code.trim(),
+      country: shipping.country.trim(),
+      notes: shipping.notes.trim(),
+    };
+
+    // Save the order first so it gets a tracking code and shows up in "My orders".
+    const { data, error } = await supabase.rpc('place_order', {
+      p_items: items.map((item) => ({ product_id: item.product.id, quantity: item.quantity })),
+      p_shipping: details,
+      p_payment_method: 'whatsapp',
+    });
+
+    if (error || !isOrderResult(data)) {
+      setSubmitError(
+        error?.message || 'We could not save your order right now. Please try again in a moment.',
+      );
+      setSubmitting(false);
+      return;
+    }
 
     const lines = items.map(
       (item, index) =>
         `${index + 1}. ${item.product.name} x ${item.quantity} - ${formatPrice(item.lineTotalCents)}`,
     );
-    const address = [shipping.address_line, shipping.city, shipping.postal_code, shipping.country]
-      .map((part) => part.trim())
+    const address = [details.address_line, details.city, details.postal_code, details.country]
       .filter(Boolean)
       .join(', ');
 
     const message = [
-      `Hello ${COMPANY.name}, I would like to place an order.`,
+      `Hello ${COMPANY.name}, I have placed an order.`,
       '',
-      '*Order*',
+      `*Order ${data.tracking_code}*`,
       ...lines,
       '',
-      `*Total:* ${formatPrice(subtotalCents)}`,
+      `*Total:* ${formatPrice(data.total_cents)}`,
       '',
       '*Delivery details*',
-      `Name: ${shipping.name.trim()}`,
-      `Email: ${shipping.email.trim()}`,
-      `Phone: ${shipping.phone.trim()}`,
+      `Name: ${details.name}`,
+      `Email: ${details.email}`,
+      `Phone: ${details.phone}`,
       `Address: ${address}`,
-      ...(shipping.notes.trim() ? [`Notes: ${shipping.notes.trim()}`] : []),
+      ...(details.notes ? [`Notes: ${details.notes}`] : []),
+      '',
+      `Track my order: ${window.location.origin}/track/${data.tracking_code}`,
       '',
       'Please confirm availability and how to pay. Thank you!',
     ].join('\n');
 
-    const url = whatsappLink(message);
-    const opened = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!opened) window.location.href = url;
+    const whatsappUrl = whatsappLink(message);
+    setPlaced({ code: data.tracking_code, totalCents: data.total_cents, whatsappUrl });
+    clearCart();
+    void reloadCatalog();
+    setSubmitting(false);
+    // May be blocked by the browser; the confirmation screen has a button as a fallback.
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
+
+  if (placed) {
+    return (
+      <section className="mx-auto flex max-w-xl flex-col items-center gap-6 px-5 py-32 text-center sm:px-8 lg:py-40">
+        <CheckCircle2 className="h-14 w-14 text-gold-600" />
+        <div className="space-y-3">
+          <h1 className="font-display text-4xl font-semibold text-ink-900">Your order is saved</h1>
+          <p className="text-ink-600">
+            Send it to us on WhatsApp so we can confirm availability and share payment details. Total{' '}
+            <span className="font-semibold text-ink-900">{formatPrice(placed.totalCents)}</span>.
+          </p>
+        </div>
+        <div className="w-full rounded-2xl border border-gold-200 bg-gold-50 px-6 py-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-800">Tracking code</p>
+          <p className="mt-2 select-all font-display text-3xl font-semibold tracking-wide text-ink-900">{placed.code}</p>
+        </div>
+        <a
+          href={placed.whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:brightness-95"
+        >
+          <WhatsAppIcon className="h-6 w-6" />
+          Send order on WhatsApp
+        </a>
+        <div className="flex flex-wrap justify-center gap-3 text-sm font-semibold">
+          <Link
+            to={`/track/${placed.code}`}
+            className="rounded-full border border-gold-400 bg-white px-6 py-3 text-ink-900 transition hover:bg-gold-50"
+          >
+            Track this order
+          </Link>
+          <Link to="/shop" className="rounded-full px-6 py-3 text-ink-600 transition hover:text-ink-900">
+            Continue shopping
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   if (!catalogLoading && items.length === 0) {
     return (
@@ -154,16 +246,25 @@ export function CheckoutPage() {
             </fieldset>
 
             <div className="space-y-3">
+              {submitError && (
+                <div
+                  role="alert"
+                  className="flex items-start gap-3 rounded-2xl border border-crimson-50 bg-crimson-50 px-5 py-4 text-sm text-crimson-700"
+                >
+                  <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+                  <p>{submitError}</p>
+                </div>
+              )}
               <button
                 type="submit"
-                disabled={items.length === 0}
+                disabled={items.length === 0 || submitting}
                 className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:brightness-95 disabled:opacity-60"
               >
-                <WhatsAppIcon className="h-6 w-6" />
-                Order on WhatsApp - {formatPrice(subtotalCents)}
+                {submitting ? <Loader2 className="h-6 w-6 animate-spin" /> : <WhatsAppIcon className="h-6 w-6" />}
+                {submitting ? 'Saving your order...' : `Place order and send on WhatsApp - ${formatPrice(subtotalCents)}`}
               </button>
               <p className="text-center text-xs text-ink-400">
-                This opens WhatsApp with your order and delivery details ready to send.
+                We save your order and give you a tracking code, then open WhatsApp with the details ready to send.
               </p>
             </div>
           </form>

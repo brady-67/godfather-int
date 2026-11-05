@@ -76,7 +76,7 @@ export function HeroSection() {
             </div>
 
             <div className="absolute -bottom-8 -left-4 flex h-32 w-32 items-center justify-center rounded-full bg-white p-4 shadow-gold animate-float sm:-left-8">
-              <img src="/images/image.png" alt={`${COMPANY.name} logo`} className="h-full w-full object-contain" />
+              <img src="/images/logo.webp" alt={`${COMPANY.name} logo`} width={377} height={256} className="h-full w-full object-contain" />
             </div>
 
             <div className="absolute -right-3 top-8 rounded-2xl border border-gold-200 bg-white/95 px-5 py-4 shadow-gold backdrop-blur sm:-right-6">

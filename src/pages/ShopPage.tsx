@@ -7,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { useProducts } from '@/hooks/useProducts';
 import { countByCategory, type CategoryFilter } from '@/lib/catalog';
 import { PRODUCT_CATEGORIES, type Product } from '@/lib/types';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'name';
 
@@ -33,6 +34,7 @@ function sortProducts(products: Product[], sort: SortKey): Product[] {
 }
 
 export function ShopPage() {
+  usePageMeta({ title: 'Shop', description: 'Quality electronics, tea and ceramics, textiles, home and kitchen goods, tools and beauty products, sourced through our global supplier network and shipped worldwide.' });
   const { products, loading, error, reload } = useProducts();
   const [category, setCategory] = useState<CategoryFilter>('All');
   const [query, setQuery] = useState('');

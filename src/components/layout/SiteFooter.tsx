@@ -8,7 +8,7 @@ export function SiteFooter() {
     <footer className="relative overflow-hidden border-t border-gold-200 bg-gold-50/60">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-5">
-          <img src="/images/image.png" alt={COMPANY.name} className="h-16 w-auto" />
+          <img src="/images/logo.webp" alt={COMPANY.name} width={377} height={256} loading="lazy" className="h-16 w-auto" />
           <p className="max-w-xs text-sm leading-relaxed text-ink-600">
             Global sourcing, logistics, travel and immigration support, and a curated shop of quality goods for
             clients on every continent.
@@ -93,7 +93,7 @@ export function SiteFooter() {
           <p>
             &copy; {COMPANY.foundedYear}&ndash;{new Date().getFullYear()} {COMPANY.name}. All rights reserved.
           </p>
-          <p className="font-display text-sm font-semibold text-gold-700">Trade the world with confidence.</p>
+          <p className="font-display text-sm font-semibold text-gold-700 sm:pr-20">Trade the world with confidence.</p>
         </div>
       </div>
     </footer>

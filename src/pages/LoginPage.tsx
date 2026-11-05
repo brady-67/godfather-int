@@ -5,8 +5,10 @@ import { TextField } from '@/components/ui/TextField';
 import { useAuth } from '@/contexts/AuthContext';
 import { COMPANY } from '@/lib/company';
 import { safeNextPath } from '@/lib/navigation';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 export function LoginPage() {
+  usePageMeta({ title: 'Sign In', description: 'Sign in to place orders and view your order history.', noindex: true });
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
