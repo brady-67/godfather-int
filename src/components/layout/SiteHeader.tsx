@@ -41,18 +41,18 @@ export function SiteHeader() {
           : 'border-b border-transparent bg-white/0'
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
-        <Link to="/" className="group flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3" aria-label={COMPANY.name}>
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-6 sm:px-8">
+        <Link to="/" className="group flex min-w-0 shrink items-center gap-2 sm:shrink-0 sm:gap-3" aria-label={COMPANY.name}>
           <img
             src="/images/image.png"
             alt=""
-            className="h-12 w-auto shrink-0 transition duration-500 group-hover:scale-105"
+            className="h-10 w-auto shrink-0 transition duration-500 group-hover:scale-105 sm:h-12"
           />
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-xl font-semibold uppercase tracking-[0.1em] text-ink-900 sm:text-2xl">
+          <span className="flex min-w-0 flex-col leading-none">
+            <span className="font-display text-lg font-semibold uppercase tracking-[0.08em] text-ink-900 sm:text-2xl sm:tracking-[0.1em]">
               Godfather
             </span>
-            <span className="mt-1 text-[8px] font-semibold uppercase tracking-[0.16em] text-gold-700 sm:text-[10px] sm:tracking-[0.2em]">
+            <span className="mt-1 hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-700 sm:block">
               International Trading LLC
             </span>
           </span>
@@ -84,12 +84,12 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-0.5 sm:gap-3">
           {isAdmin && (
             <Link
               to="/admin"
               aria-label="Admin dashboard"
-              className="rounded-full p-2.5 text-gold-700 transition hover:bg-gold-50 hover:text-ink-900"
+              className="rounded-full p-2 text-gold-700 sm:p-2.5 transition hover:bg-gold-50 hover:text-ink-900"
             >
               <ShieldCheck className="h-5 w-5" />
             </Link>
@@ -98,7 +98,7 @@ export function SiteHeader() {
           <Link
             to={user ? '/account' : '/login'}
             aria-label={user ? 'My account' : 'Sign in'}
-            className="rounded-full p-2.5 text-ink-700 transition hover:bg-gold-50 hover:text-ink-900"
+            className="rounded-full p-2 text-ink-700 sm:p-2.5 transition hover:bg-gold-50 hover:text-ink-900"
           >
             <User className="h-5 w-5" />
           </Link>
@@ -107,7 +107,7 @@ export function SiteHeader() {
             type="button"
             onClick={openCart}
             aria-label={`Open cart, ${itemCount} items`}
-            className="relative rounded-full p-2.5 text-ink-700 transition hover:bg-gold-50 hover:text-ink-900"
+            className="relative rounded-full p-2 text-ink-700 sm:p-2.5 transition hover:bg-gold-50 hover:text-ink-900"
           >
             <ShoppingBag className="h-5 w-5" />
             {itemCount > 0 && (
@@ -122,7 +122,7 @@ export function SiteHeader() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            className="rounded-full p-2.5 text-ink-800 transition hover:bg-gold-50 lg:hidden"
+            className="rounded-full p-2 text-ink-800 sm:p-2.5 transition hover:bg-gold-50 lg:hidden"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
