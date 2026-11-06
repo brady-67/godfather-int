@@ -54,7 +54,7 @@ export function SiteHeader() {
             <span className="font-display text-lg font-semibold uppercase tracking-[0.08em] text-ink-900 sm:text-2xl sm:tracking-[0.1em]">
               Godfather
             </span>
-            <span className="mt-1 hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-700 sm:block">
+            <span className="mt-1 whitespace-nowrap text-[7px] font-semibold uppercase tracking-[0.1em] text-gold-700 min-[380px]:text-[8px] min-[380px]:tracking-[0.14em] sm:text-[10px] sm:tracking-[0.2em]">
               International Trading LLC
             </span>
           </span>
